@@ -53,7 +53,7 @@
       <NuxtLink to="/Review/Reviewlist" class="block p-4 rounded-lg shadow bg-red-600 text-white hover:bg-red-700 transition">
         <span class="text-lg">⭐</span> รีวิวร้าน
       </NuxtLink>
-      <NuxtLink to="/location" class="block p-4 rounded-lg shadow bg-pink-600 text-white hover:bg-pink-700 transition">
+      <NuxtLink to="https://maps.app.goo.gl/9M283TiMKPTXhzBH6" class="block p-4 rounded-lg shadow bg-pink-600 text-white hover:bg-pink-700 transition">
         <span class="text-lg">📍</span> โลเคชั่นร้าน
       </NuxtLink>
     </div>
@@ -115,23 +115,23 @@ const events = ref([
     id: 1,
     title: "งานดนตรีกลางแจ้ง",
     date: "20 มิ.ย. 2568",
-    image: "/Tickets/img/music-festival.webp",
-    link: "/tickets/music-festival",
+    image: "",
+    link: "",
   },
-  {
-    id: 2,
-    title: "เวิร์กช็อปทำอาหาร",
-    date: "25 มิ.ย. 2568",
-    image: "/events/cooking-workshop.jpg",
-    link: "/tickets/cooking-workshop",
-  },
-  {
-    id: 3,
-    title: "แกลเลอรี่งานศิลปะ",
-    date: "30 มิ.ย. 2568",
-    image: "/events/art-exhibition.jpg",
-    link: "/tickets/art-exhibition",
-  },
+  // {
+  //   id: 2,
+  //   title: "เวิร์กช็อปทำอาหาร",
+  //   date: "25 มิ.ย. 2568",
+  //   image: "/events/cooking-workshop.jpg",
+  //   link: "/tickets/cooking-workshop",
+  // },
+  // {
+  //   id: 3,
+  //   title: "แกลเลอรี่งานศิลปะ",
+  //   date: "30 มิ.ย. 2568",
+  //   image: "/events/art-exhibition.jpg",
+  //   link: "/tickets/art-exhibition",
+  // },
 ]);
 </script>
 
