@@ -2,10 +2,10 @@
   <main class="min-h-screen">
     <div class="space-y-24">
       <HomeIntro />
-      <HomeSocialLinks />
+      <!-- <HomeSocialLinks />
       <HomeFeaturedProjects />
       <HomeFeaturedArticles />
-      <HomeNewsletter />
+      <HomeNewsletter /> -->
     </div>
   </main>
 </template>

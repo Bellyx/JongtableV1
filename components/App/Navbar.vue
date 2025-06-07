@@ -64,5 +64,10 @@ const items = [
     path: "/bookmarks",
     icon: "solar:bookmark-linear",
   },
+    {
+    name: "Login",
+    path: "/serlogin/AdLogin",
+    icon: "solar:login-3-line-duotone",
+  },
 ];
 </script>

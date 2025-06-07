@@ -15,22 +15,42 @@
       </div>
     </div>
 
+
+    <!-- ปุ่มlogin - Register -->
+      <div class="flex space-x-4">
+        <!-- Login Button -->
+        <NuxtLink
+          to="/auth/signin"
+          class="px-6 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:brightness-110 transition inline-block"
+        >
+          เข้าสู่ระบบ
+        </NuxtLink>
+
+        <!-- Register Button -->
+        <NuxtLink
+          to="/auth/register"
+          class="px-6 py-2 bg-gradient-to-r from-green-400 to-emerald-600 text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:brightness-110 transition inline-block"
+        >
+          สมัครสมาชิก
+        </NuxtLink>
+      </div>
+
     <!-- 🧩 ปุ่มต่าง ๆ แบบ Card Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <!-- ปุ่มต่าง ๆ เหมือนเดิม ... -->
-      <NuxtLink to="/booking" class="block p-4 rounded-lg shadow bg-blue-600 text-white hover:bg-blue-700 transition">
+      <NuxtLink to="/Booking/bookinglist" class="block p-4 rounded-lg shadow bg-blue-600 text-white hover:bg-blue-700 transition">
         <span class="text-lg">🪑</span> จองโต๊ะ
       </NuxtLink>
-      <NuxtLink to="/menu" class="block p-4 rounded-lg shadow bg-green-600 text-white hover:bg-green-700 transition">
+      <NuxtLink to="/Menu/menulist" class="block p-4 rounded-lg shadow bg-green-600 text-white hover:bg-green-700 transition">
         <span class="text-lg">🍽️</span> รายการอาหาร
       </NuxtLink>
-      <NuxtLink to="/tickets" class="block p-4 rounded-lg shadow bg-purple-600 text-white hover:bg-purple-700 transition">
+      <NuxtLink to="/Tickets/ticketlist" class="block p-4 rounded-lg shadow bg-purple-600 text-white hover:bg-purple-700 transition">
         <span class="text-lg">🎟️</span> ซื้อตั๋วเข้างาน
       </NuxtLink>
-      <NuxtLink to="/send-message" class="block p-4 rounded-lg shadow bg-yellow-600 text-white hover:bg-yellow-700 transition">
+      <NuxtLink to="/Message/send-message" class="block p-4 rounded-lg shadow bg-yellow-600 text-white hover:bg-yellow-700 transition">
         <span class="text-lg">💬</span> ส่งข้อความขึ้นจอ
       </NuxtLink>
-      <NuxtLink to="/reviews" class="block p-4 rounded-lg shadow bg-red-600 text-white hover:bg-red-700 transition">
+      <NuxtLink to="/Review/Reviewlist" class="block p-4 rounded-lg shadow bg-red-600 text-white hover:bg-red-700 transition">
         <span class="text-lg">⭐</span> รีวิวร้าน
       </NuxtLink>
       <NuxtLink to="/location" class="block p-4 rounded-lg shadow bg-pink-600 text-white hover:bg-pink-700 transition">
@@ -47,7 +67,7 @@
             กิจกรรมที่กำลังมาถึง
           </h2>
         </div>
-        <NuxtLink to="/tickets" class="text-sm text-blue-600 hover:underline">
+        <NuxtLink to="/Tickets/ticketlist" class="text-sm text-blue-600 hover:underline">
           ดูทั้งหมด →
         </NuxtLink>
       </div>
@@ -95,7 +115,7 @@ const events = ref([
     id: 1,
     title: "งานดนตรีกลางแจ้ง",
     date: "20 มิ.ย. 2568",
-    image: "/events/music-festival.jpg",
+    image: "/Tickets/img/music-festival.webp",
     link: "/tickets/music-festival",
   },
   {
