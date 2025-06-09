@@ -89,7 +89,7 @@ const handleLogin = async () => {
     if (res.role === 'admin') {
       router.push('/admin/dashboard')
     } else if (res.role === 'user') {
-      router.push('/dashboard')
+      router.push('/users/dashboard')
     } else {
       error.value = 'ไม่สามารถระบุบทบาทได้'
     }
@@ -105,7 +105,7 @@ const signInWithGoogle = async () => {
     if (googleUser.role === 'admin') {
       router.push('/admin/dashboard')
     } else {
-      router.push('/dashboard')
+      router.push('/users/dashboard')
     }
   } catch (err) {
     error.value = 'เข้าสู่ระบบด้วย Google ล้มเหลว'
