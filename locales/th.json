@@ -1,0 +1,28 @@
+{
+  "welcome": "ยินดีต้อนรับ, {name}!",
+  "dashboard_subtitle": "นี่คือภาพรวม Dashboard ของคุณ",
+  "logout": "ออกจากระบบ",
+  "quick_stats": "สถิติโดยย่อ",
+  "upcoming_reservations": "การจองล่าสุด",
+  "no_reservations": "ไม่พบการจองที่กำลังจะมาถึง",
+  "no_reservations_desc": "จองโต๊ะเลยเพื่อดูรายการที่นี่!",
+  "details": "รายละเอียด",
+  "actions": {
+    "sendMessage": "ส่งข้อความ",
+    "sendMessage_desc": "ส่งข้อความของคุณขึ้นไปแสดงผลบนจอในร้าน",
+    "bookingList": "รายการจอง",
+    "bookingList_desc": "ดูประวัติและจัดการการจองโต๊ะทั้งหมดของคุณ",
+    "ticketList": "รายการตั๋ว",
+    "ticketList_desc": "จัดการตั๋วสำหรับเข้าร่วมกิจกรรมพิเศษต่างๆ",
+    "menuList": "รายการเมนู",
+    "menuList_desc": "ดูรายการอาหารและเครื่องดื่มทั้งหมดของร้าน",
+    "reviewList": "รายการรีวิว",
+    "reviewList_desc": "ให้คะแนนและแบ่งปันประสบการณ์ของคุณ",
+    "myProfile": "โปรไฟล์ของฉัน",
+    "myProfile_desc": "แก้ไขข้อมูลส่วนตัวและตั้งค่าบัญชีผู้ใช้"
+  },
+  "stats": {
+    "totalBookings": "การจองทั้งหมด",
+    "ticketsPurchased": "ตั๋วที่ซื้อแล้ว"
+  }
+}

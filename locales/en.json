@@ -1,0 +1,28 @@
+{
+  "welcome": "Welcome back, {name}!",
+  "dashboard_subtitle": "Here's your dashboard overview.",
+  "logout": "Logout",
+  "quick_stats": "Quick Stats",
+  "upcoming_reservations": "Upcoming Reservations",
+  "no_reservations": "No upcoming reservations.",
+  "no_reservations_desc": "Book a table to see it here!",
+  "details": "Details",
+  "actions": {
+    "sendMessage": "Send Message",
+    "sendMessage_desc": "Send your message to display on the screen.",
+    "bookingList": "Booking List",
+    "bookingList_desc": "View and manage all your table reservations.",
+    "ticketList": "Ticket List",
+    "ticketList_desc": "Manage your tickets for special events.",
+    "menuList": "Menu List",
+    "menuList_desc": "Browse the full menu of food and drinks.",
+    "reviewList": "Review List",
+    "reviewList_desc": "Rate and share your dining experience.",
+    "myProfile": "My Profile",
+    "myProfile_desc": "Edit your personal information and account settings."
+  },
+  "stats": {
+    "totalBookings": "Total Bookings",
+    "ticketsPurchased": "Tickets Purchased"
+  }
+}

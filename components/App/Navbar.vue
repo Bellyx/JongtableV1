@@ -30,7 +30,9 @@
         <li class="flex-1"></li>
         <li>
           <AppThemeToggle />
+          
         </li>
+         <AppLanguageSwitcher />
       </ul>
     </nav>
   </div>
@@ -38,6 +40,7 @@
 
 <script setup>
 import { useFixedHeader } from 'vue-use-fixed-header'
+
 const headerRef = ref(null);
 const { styles } = useFixedHeader(headerRef);
 
