@@ -3,7 +3,7 @@
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
         <h1 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-          Admin Dashboard
+          Admin Dashboard Welcome
         </h1>
         <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
           A list of all the recent reservations in your restaurant.
