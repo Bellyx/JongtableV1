@@ -39,6 +39,15 @@ Likes
 3. Run `npm install` to install the dependencies.
 4. Run `npm run dev` to start the development server.
 
+
+
+## File Extension
+# ติดตั้ง library หลัก
+npm install bcrypt
+# ติดตั้ง type definitions สำหรับ TypeScript
+npm i --save-dev @types/bcrypt
+
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

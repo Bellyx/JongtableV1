@@ -1,295 +1,330 @@
+<!-- pages/Auth/signin.vue -->
 <template>
-  <div class="h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100 px-4 overflow-hidden">
-    <!-- Background decoration -->
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden">
+    <!-- Enhanced Background decoration -->
     <div class="absolute inset-0 overflow-hidden">
-      <div class="absolute -top-40 -right-40 w-80 h-80 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
-      <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
-      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
+      <div class="absolute -top-32 -right-32 w-96 h-96 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-pulse"></div>
+      <div class="absolute -bottom-32 -left-32 w-96 h-96 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-pulse"></div>
+      <div class="absolute top-1/3 left-1/3 w-72 h-72 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-pulse"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full mix-blend-multiply filter blur-2xl opacity-50 animate-pulse"></div>
     </div>
 
+    <!-- Floating elements -->
+    <div class="absolute top-20 left-20 w-3 h-3 bg-white/30 rounded-full animate-bounce"></div>
+    <div class="absolute top-32 right-32 w-2 h-2 bg-white/40 rounded-full animate-bounce delay-100"></div>
+    <div class="absolute bottom-20 left-32 w-4 h-4 bg-white/20 rounded-full animate-bounce delay-200"></div>
+
     <!-- Login Container -->
-    <div class="relative z-10 w-full max-w-md">
-      <!-- Logo/Brand Section - ลดขนาดและระยะห่าง -->
-      <div class="text-center mb-3">
-        <div class="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl shadow-2xl mb-2 transform hover:scale-105 transition-transform duration-300">
-          <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+    <div class="relative z-10 w-full max-w-md mx-4">
+      <!-- Enhanced Logo/Brand Section -->
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-500 via-purple-600 to-pink-500 rounded-3xl shadow-2xl mb-4 transform hover:scale-110 transition-all duration-300 hover:rotate-3">
+          <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
           </svg>
         </div>
-        <h1 class="text-lg sm:text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-1">
+        <h1 class="text-2xl font-bold bg-gradient-to-r from-gray-800 via-gray-700 to-gray-600 bg-clip-text text-transparent mb-2">
           ยินดีต้อนรับ! 👋
         </h1>
-        <p class="text-gray-600 text-xs sm:text-sm">เข้าสู่ระบบเพื่อดำเนินการต่อ</p>
+        <p class="text-gray-600 text-sm">เข้าสู่ระบบเพื่อดำเนินการต่อ</p>
       </div>
 
-      <!-- Login Form - ลดขนาด padding และ spacing -->
-      <div class="bg-white/80 backdrop-blur-sm p-4 rounded-2xl shadow-2xl border border-white/20 space-y-3">
-        <!-- Username Field -->
-        <div class="space-y-1">
-          <label class="block text-xs font-medium text-gray-700 mb-1">
-            <svg class="inline w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+      <!-- Alert Component -->
+      <div v-if="alertMessage" class="mb-6 transform transition-all duration-300 ease-in-out">
+        <div :class="[
+          'flex items-center p-4 rounded-2xl shadow-lg border-l-4 backdrop-blur-sm',
+          alertType === 'error' 
+            ? 'bg-red-50/90 border-red-500 text-red-800' 
+            : 'bg-green-50/90 border-green-500 text-green-800'
+        ]">
+          <div class="flex-shrink-0 mr-3">
+            <svg v-if="alertType === 'error'" class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            ชื่อผู้ใช้
+            <svg v-else class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div class="flex-1">
+            <p class="font-medium">{{ alertMessage }}</p>
+          </div>
+          <button @click="alertMessage = ''" class="flex-shrink-0 ml-4 text-gray-400 hover:text-gray-600 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Enhanced Login Form -->
+      <form @submit.prevent="handleLogin" class="bg-white/90 backdrop-blur-lg p-8 rounded-3xl shadow-2xl border border-white/30 space-y-6 hover:shadow-3xl transition-all duration-300">
+        
+        <!-- Email Field -->
+        <div class="space-y-2">
+          <label class="flex items-center text-sm font-semibold text-gray-700 mb-2">
+            <svg class="w-4 h-4 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
+            </svg>
+            อีเมล
           </label>
           <div class="relative group">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg class="h-4 w-4 text-gray-400 group-focus-within:text-blue-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400 group-focus-within:text-blue-500 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
               </svg>
             </div>
             <input
-              v-model="form.username"
-              type="text"
-              placeholder="กรอกชื่อผู้ใช้"
+              v-model="form.email"
+              type="email"
+              placeholder="กรอกอีเมลของคุณ"
               required
-              class="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white/50 hover:bg-white/80 focus:bg-white text-sm"
+              :class="[
+                'w-full pl-12 pr-4 py-4 border-2 rounded-2xl focus:outline-none transition-all duration-300 text-sm font-medium',
+                emailError 
+                  ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100 bg-red-50/50' 
+                  : 'border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 bg-white/70 hover:bg-white/90 focus:bg-white'
+              ]"
+              @blur="validateEmail"
+              @input="emailError = ''"
             />
           </div>
+          <p v-if="emailError" class="text-red-500 text-xs mt-1 flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            {{ emailError }}
+          </p>
         </div>
 
         <!-- Password Field -->
-        <div class="space-y-1">
-          <label class="block text-xs font-medium text-gray-700 mb-1">
-            <svg class="inline w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+        <div class="space-y-2">
+          <label class="flex items-center text-sm font-semibold text-gray-700 mb-2">
+            <svg class="w-4 h-4 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
             </svg>
             รหัสผ่าน
           </label>
           <div class="relative group">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg class="h-4 w-4 text-gray-400 group-focus-within:text-pink-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400 group-focus-within:text-purple-500 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
               </svg>
             </div>
             <input
               v-model="form.password"
               :type="showPassword ? 'text' : 'password'"
-              placeholder="กรอกรหัสผ่าน"
+              placeholder="กรอกรหัสผ่านของคุณ"
               required
-              class="w-full pl-9 pr-10 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-300 bg-white/50 hover:bg-white/80 focus:bg-white text-sm"
+              :class="[
+                'w-full pl-12 pr-12 py-4 border-2 rounded-2xl focus:outline-none transition-all duration-300 text-sm font-medium',
+                passwordError 
+                  ? 'border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100 bg-red-50/50' 
+                  : 'border-gray-200 focus:border-purple-500 focus:ring-4 focus:ring-purple-100 bg-white/70 hover:bg-white/90 focus:bg-white'
+              ]"
+              @blur="validatePassword"
+              @input="passwordError = ''"
             />
             <button
               type="button"
               @click="showPassword = !showPassword"
-              class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
+              class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-all duration-300 hover:scale-110"
             >
-              <svg v-if="showPassword" class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L8.464 8.464M18.364 18.364L16.95 16.95M18.364 18.364L19.778 19.778M16.95 16.95l-4.242-4.242M16.95 16.95L19.778 19.778M9.878 9.878L8.464 8.464"></path>
+              <svg v-if="showPassword" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"/>
               </svg>
-              <svg v-else class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+              <svg v-else class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
               </svg>
             </button>
           </div>
+          <p v-if="passwordError" class="text-red-500 text-xs mt-1 flex items-center">
+            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            {{ passwordError }}
+          </p>
         </div>
 
-        <!-- Remember Me & Forgot Password -->
-        <div class="flex items-center justify-between text-xs">
-          <label class="flex items-center">
-            <input type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 mr-1 w-3 h-3">
-            <span class="text-gray-600">จำฉันไว้</span>
-          </label>
-          <a href="#" class="text-blue-600 hover:text-blue-800 font-medium transition-colors">ลืมรหัสผ่าน?</a>
-        </div>
-
-        <!-- Submit Button -->
+        <!-- Enhanced Submit Button -->
         <button
-          @click="handleLogin"
+          type="submit"
           :disabled="isLoading"
-          class="w-full py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:from-green-600 hover:to-emerald-700 transform hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-sm flex items-center justify-center gap-2"
+          class="w-full py-4 bg-gradient-to-r from-blue-500 via-purple-600 to-pink-500 text-white font-bold rounded-2xl shadow-lg hover:shadow-2xl hover:from-blue-600 hover:via-purple-700 hover:to-pink-600 transform hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-sm flex items-center justify-center gap-3 group"
         >
-          <svg v-if="isLoading" class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+          <svg v-if="isLoading" class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          <svg v-else class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+          <svg v-else class="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
           </svg>
           {{ isLoading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ' }}
         </button>
 
-        <!-- Divider -->
-        <div class="relative flex items-center justify-center my-2">
-          <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t border-gray-200"></div>
-          </div>
-          <div class="relative bg-white px-3 text-xs text-gray-500 font-medium">หรือ</div>
+        <!-- Additional Links -->
+        <div class="text-center pt-4 space-y-2">
+          <p class="text-gray-600 text-sm">ลืมรหัสผ่าน? 
+            <a href="#" class="text-blue-600 hover:text-blue-800 font-semibold hover:underline transition-colors">คลิกที่นี่</a>
+          </p>
+          <p class="text-gray-600 text-sm">ยังไม่มีบัญชี? 
+            <a href="#" class="text-purple-600 hover:text-purple-800 font-semibold hover:underline transition-colors">สมัครสมาชิก</a>
+          </p>
         </div>
-
-        <!-- Google Sign-In -->
-        <button
-          @click="signInWithGoogle"
-          :disabled="isLoading"
-          class="w-full flex items-center justify-center gap-2 py-2 px-4 border border-gray-200 rounded-xl shadow-sm bg-white hover:bg-gray-50 hover:shadow-md transform hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-sm group"
-        >
-          <svg class="w-4 h-4 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
-            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-          </svg>
-          <span class="text-gray-700 font-medium">เข้าสู่ระบบด้วย Google</span>
-        </button>
-
-        <!-- Social Login Options - ทำให้กะทัดรัดขึ้น -->
-        <div class="grid grid-cols-2 gap-2">
-          <button
-            type="button"
-            class="flex items-center justify-center gap-1 py-1.5 px-2 border border-gray-200 rounded-xl bg-white hover:bg-gray-50 transition-colors text-xs"
-          >
-            <svg class="w-3 h-3 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-            </svg>
-            <span class="text-gray-700 font-medium">Facebook</span>
-          </button>
-          <button
-            type="button"
-            class="flex items-center justify-center gap-1 py-1.5 px-2 border border-gray-200 rounded-xl bg-white hover:bg-gray-50 transition-colors text-xs"
-          >
-            <svg class="w-3 h-3 text-black" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-            <span class="text-gray-700 font-medium">X (Twitter)</span>
-          </button>
-        </div>
-
-        <!-- Error Message -->
-        <div v-if="error" class="bg-red-50 border border-red-200 rounded-xl p-2 flex items-center gap-2">
-          <svg class="h-4 w-4 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-          <p class="text-red-700 text-xs font-medium">{{ error }}</p>
-        </div>
-      </div>
-
-      <!-- Sign Up Link -->
-      <div class="text-center mt-3">
-        <p class="text-gray-600 text-xs">
-          ยังไม่มีบัญชี? 
-          <a href="#" class="text-blue-600 hover:text-blue-800 font-medium transition-colors ml-1">สมัครสมาชิก</a>
-        </p>
-      </div>
+      </form>
     </div>
   </div>
 </template>
 
-<script setup>
-import { reactive, ref } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'; 
+import { useState, useFetch, navigateTo, useHead } from '#imports';
 
-// สำหรับ Nuxt.js อาจต้องใช้ useRouter แทน
-// const router = useRouter()
+// Global state สำหรับเก็บข้อมูลผู้ใช้หลัง login
+const user = useState('user', () => null);
+const toast = useToast();
 
-const form = reactive({
-  username: '',
+const form = ref({
+  email: '',
   password: ''
-})
-const error = ref('')
-const isLoading = ref(false)
-const showPassword = ref(false)
+});
+const isLoading = ref(false);
+const showPassword = ref(false);
+
+// Alert system
+const alertMessage = ref('');
+const alertType = ref('error'); // 'error' | 'success'
+
+// Validation errors
+const emailError = ref('');
+const passwordError = ref('');
+
+// Validation functions
+const validateEmail = () => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!form.value.email) {
+    emailError.value = 'กรุณากรอกอีเมล';
+  } else if (!emailRegex.test(form.value.email)) {
+    emailError.value = 'รูปแบบอีเมลไม่ถูกต้อง';
+  } else {
+    emailError.value = '';
+  }
+};
+
+const validatePassword = () => {
+  if (!form.value.password) {
+    passwordError.value = 'กรุณากรอกรหัสผ่าน';
+  } else if (form.value.password.length < 6) {
+    passwordError.value = 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร';
+  } else {
+    passwordError.value = '';
+  }
+};
+
+const showAlert = (message: string, type: 'error' | 'success' = 'error') => {
+  alertMessage.value = message;
+  alertType.value = type;
+  
+  // Auto hide alert after 5 seconds
+  setTimeout(() => {
+    alertMessage.value = '';
+  }, 5000);
+};
 
 const handleLogin = async () => {
-  error.value = ''
-  isLoading.value = true
+  // Validate form
+  validateEmail();
+  validatePassword();
   
+  // ตรวจสอบข้อมูลเบื้องต้นก่อนส่ง
+  if (!form.value.email || !form.value.password) {
+    showAlert('กรุณากรอกอีเมลและรหัสผ่านให้ครบถ้วน');
+    toast.add({ title: 'Error', description: 'กรุณากรอกอีเมลและรหัสผ่าน', color: 'red', icon: 'i-heroicons-x-circle' });
+    return;
+  }
+
+  // Check if there are validation errors
+  if (emailError.value || passwordError.value) {
+    showAlert('กรุณาแก้ไขข้อมูลที่ไม่ถูกต้อง');
+    return;
+  }
+  
+  isLoading.value = true;
   try {
-    // จำลองการรอ API
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    
-    const res = await fakeLogin(form.username, form.password)
+    // เรียกใช้ API /api/auth/login ด้วย useFetch
+    const { data, error } = await useFetch('/api/auth/login', {
+      method: 'POST',
+      body: form.value,
+    });
 
-    if (res.role === 'admin') {
-      // สำหรับ Nuxt.js ใช้ navigateTo('/admin/dashboard')
-      alert('เข้าสู่ระบบสำเร็จ - Admin Dashboard')
-      await navigateTo('/admin/dashboard')
-    } else if (res.role === 'user') {
-      // สำหรับ Nuxt.js ใช้ navigateTo('/users/dashboard')
-       alert('เข้าสู่ระบบสำเร็จ ยินดีต้อนรับ คุณ ' + form.username  )
-       await navigateTo('/users/dashboard')
-    } else {
-      error.value = 'ไม่สามารถระบุบทบาทได้'
+    // ตรวจสอบว่ามี error จากการ fetch หรือ API ส่งค่า success: false กลับมา
+    if (error.value || !data.value?.success) {
+      const errorMessage = data.value?.message || 'เข้าสู่ระบบไม่สำเร็จ กรุณาตรวจสอบอีเมลและรหัสผ่าน';
+      showAlert(errorMessage);
+      toast.add({ title: 'Error', description: errorMessage, color: 'red', icon: 'i-heroicons-x-circle' });
+      return;
     }
-  } catch (err) {
-    console.error('Login Error:', err)
-    error.value = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'
+
+     // ถ้า Login สำเร็จ, เก็บข้อมูล user ไว้ใน state
+      user.value = data.value.user;
+
+      showAlert(`ยินดีต้อนรับคุณ, ${data.value.user.name}!`, 'success');
+
+      toast.add({
+        title: 'Success',
+        description: `ยินดีต้อนรับคุณ, ${data.value.user.name}!`,
+        icon: 'i-heroicons-check-circle'
+      });
+
+      // รอ 1 วินาทีก่อนเข้าสู่ระบบ
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // นำทางไปยังหน้า Dashboard ตาม role ของ user
+      if (data.value.user.role === 'admin') {
+        await navigateTo('/admin/dashboard');
+      } else {
+        await navigateTo('/users/dashboard');
+      }
+
+  } catch (e) {
+    console.error('An unexpected error occurred:', e);
+    showAlert('เกิดข้อผิดพลาดที่ไม่คาดคิด กรุณาลองใหม่อีกครั้ง');
+    toast.add({ title: 'Error', description: 'เกิดข้อผิดพลาดที่ไม่คาดคิด', color: 'red', icon: 'i-heroicons-x-circle' });
   } finally {
-    isLoading.value = false
-  }
-}
-
-const signInWithGoogle = async () => {
-  try {
-    isLoading.value = true
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    const googleUser = await fakeGoogleLogin()
-    alert('เข้าสู่ระบบด้วย Google สำเร็จ')
-
-    if (googleUser.role === 'admin') {
-      // await navigateTo('/admin/dashboard')
-    } else {
-      // await navigateTo('/users/dashboard')
-    }
-  } catch (err) {
-    error.value = 'เข้าสู่ระบบด้วย Google ล้มเหลว'
-  } finally {
-    isLoading.value = false
-  }
-}
-
-// Mock functions
-const fakeGoogleLogin = async () => {
-  return {
-    email: 'example@gmail.com',
-    role: 'user'
-  }
-}
-
-const fakeLogin = async (username, password) => {
-  if (username === 'admin' && password === 'admin123') {
-    return { role: 'admin' }
-  } else if (username === 'user' && password === 'user123') {
-    return { role: 'user' }
-  } else {
-    throw new Error('invalid credentials')
+    isLoading.value = false;
   }
 }
 
 // สำหรับ Nuxt.js ตั้งค่า meta tags
 useHead({
-  title: 'เข้าสู่ระบบ',
+  title: 'เข้าสู่ระบบ | Jongtable',
   meta: [
-    { name: 'description', content: 'หน้าเข้าสู่ระบบ' }
+    { name: 'description', content: 'เข้าสู่ระบบเพื่อจัดการการจองโต๊ะและดูข้อมูลร้าน' }
   ]
 })
+
+
 </script>
 
 <style scoped>
-/* Custom animations */
+/* Enhanced animations */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
 }
 
 .animate-float {
-  animation: float 6s ease-in-out infinite;
+  animation: float 3s ease-in-out infinite;
 }
 
-/* Smooth focus transitions */
-input:focus {
-  transform: translateY(-1px);
-}
-
-/* ป้องกัน scroll bar */
+/* Prevent scroll bar */
 html, body {
   overflow: hidden;
   height: 100%;
 }
 
-/* Custom scrollbar หากจำเป็น */
-::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
+/* Custom shadow */
+.shadow-3xl {
+  box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
 }
 </style>

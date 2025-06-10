@@ -1,11 +1,15 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
-
   runtimeConfig: {
-    // ค่าฝั่ง Server-side เท่านั้น (ไม่แสดงให้ User เห็น)
+    // Keys ที่ใช้เฉพาะฝั่ง Server เท่านั้น (ปลอดภัย)
     apiSecret: process.env.API_SECRET,
+    databaseUrl: process.env.DATABASE_URL,
+    dbHost: process.env.DB_HOST,
+    dbUser: process.env.DB_USER,
+    dbPassword: process.env.DB_PASSWORD,
+    dbDatabase: process.env.DB_DATABASE,
 
-    // ค่าที่ Public (แสดงผลฝั่ง Client-side ได้)
+    // Keys ที่ส่งไปให้ฝั่ง Client (หน้าเว็บ) ใช้งานได้ด้วย
     public: {
       baseUrl: process.env.NUXT_PUBLIC_BASE_URL || 'http://localhost:3000',
     }
@@ -22,11 +26,9 @@ export default defineNuxtConfig({
     "@nuxthq/studio",
     "@vueuse/nuxt"
   ],
-
   ui: {
     icons: ["heroicons", "lucide", "circle-flags"],
   },
-
   app: {
     pageTransition: { name: "page", mode: "out-in" },
     head: {

@@ -4,6 +4,7 @@
   <div class="h-32"></div>
   <UContainer>
     <NuxtPage />
+    <UNotifications group="top-right" position="top-right" />
   </UContainer>
   <div class="h-32"></div>
   <AppFooter />
