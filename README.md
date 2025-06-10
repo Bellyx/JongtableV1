@@ -51,3 +51,18 @@ npm i --save-dev @types/bcrypt
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+
+
+<!-- // {
+  
+//   "extends": "./.nuxt/tsconfig.json",
+//   "compilerOptions": {
+//     "baseUrl": ".",
+//     "paths": {
+//       "@/*": ["./*"]
+//     },
+//     "types": ["@types/node", "nuxt"]
+//   },
+//   "include": ["./**/*"]
+// } -->

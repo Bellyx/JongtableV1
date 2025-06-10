@@ -11,10 +11,10 @@ export default defineNuxtConfig({
 
     // Keys ที่ส่งไปให้ฝั่ง Client (หน้าเว็บ) ใช้งานได้ด้วย
     public: {
+      apiBase: '/api',
       baseUrl: process.env.NUXT_PUBLIC_BASE_URL || 'http://localhost:3000',
     }
   },
-
   modules: [
     "@nuxt/ui",
     "nuxt-icon",

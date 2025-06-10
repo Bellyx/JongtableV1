@@ -139,7 +139,6 @@ const handleRegister = async () => {
             description: 'อีเมลนี้ถูกใช้งานแล้ว',
             color: 'red',
             icon: 'i-heroicons-exclamation-circle',
-            group: 'top-right' // เปลี่ยนตำแหน่งได้ที่นี่
           });
         } else {
           // console.log('ไม่เข้าเงื่อนไข 409, เข้ามาที่ else แทน');
