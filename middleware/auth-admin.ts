@@ -2,7 +2,7 @@
 
 export default defineNuxtRouteMiddleware((to, from) => {
   // ในตัวอย่างนี้ เราจะจำลองการตรวจสอบสิทธิ์
-  // ในโปรเจกต์จริง คุณควรใช้ state management (เช่น Pinia) หรือ cookie
+  // ในโปรเจกต์จริง ควรใช้ state management (เช่น Pinia) หรือ cookie
   // เพื่อเก็บข้อมูลการล็อกอินของผู้ใช้
   const user = { role: 'admin' }; // <<-- ส่วนนี้ให้เปลี่ยนเป็น Logic การดึงข้อมูลผู้ใช้จริง
 
