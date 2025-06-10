@@ -202,15 +202,16 @@ const handleLogin = async () => {
     if (res.role === 'admin') {
       // สำหรับ Nuxt.js ใช้ navigateTo('/admin/dashboard')
       alert('เข้าสู่ระบบสำเร็จ - Admin Dashboard')
-      // await navigateTo('/admin/dashboard')
+      await navigateTo('/admin/dashboard')
     } else if (res.role === 'user') {
       // สำหรับ Nuxt.js ใช้ navigateTo('/users/dashboard')
-      alert('เข้าสู่ระบบสำเร็จ - User Dashboard')
-      // await navigateTo('/users/dashboard')
+       alert('เข้าสู่ระบบสำเร็จ ยินดีต้อนรับ คุณ ' + form.username  )
+       await navigateTo('/users/dashboard')
     } else {
       error.value = 'ไม่สามารถระบุบทบาทได้'
     }
   } catch (err) {
+    console.error('Login Error:', err)
     error.value = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'
   } finally {
     isLoading.value = false

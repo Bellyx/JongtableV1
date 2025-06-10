@@ -1,19 +1,32 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
+
+  runtimeConfig: {
+    // ค่าฝั่ง Server-side เท่านั้น (ไม่แสดงให้ User เห็น)
+    apiSecret: process.env.API_SECRET,
+
+    // ค่าที่ Public (แสดงผลฝั่ง Client-side ได้)
+    public: {
+      baseUrl: process.env.NUXT_PUBLIC_BASE_URL || 'http://localhost:3000',
+    }
+  },
+
   modules: [
     "@nuxt/ui",
-    "nuxt-icon",  // Icon
-    "@nuxtjs/i18n", // สำหรับทำ หลายภาษา
-    "@nuxtjs/google-fonts", // Font-Google
+    "nuxt-icon",
+    "@nuxtjs/i18n",
+    "@nuxtjs/google-fonts",
     "@nuxtjs/fontaine",
     "@nuxt/image",
     "@nuxt/content",
     "@nuxthq/studio",
     "@vueuse/nuxt"
   ],
+
   ui: {
     icons: ["heroicons", "lucide", "circle-flags"],
   },
+
   app: {
     pageTransition: { name: "page", mode: "out-in" },
     head: {
@@ -26,20 +39,21 @@ export default defineNuxtConfig({
       },
     },
   },
+
   content: {
     highlight: {
       theme: "github-dark",
     },
   },
+
   googleFonts: {
     display: "swap",
     families: {
       Inter: [400, 500, 600, 700, 800, 900],
     },
   },
-  // เพิ่มส่วนการตั้งค่า i18n
+
   i18n: {
-    /* module options */
     lazy: true,
     langDir: 'locales',
     strategy: 'prefix_except_default',
@@ -57,11 +71,11 @@ export default defineNuxtConfig({
         file: 'th.json'
       }
     ],
-    defaultLocale: 'th', // ตั้งค่าภาษาไทยเป็นภาษาเริ่มต้น
+    defaultLocale: 'th',
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
-      redirectOn: 'root',  // ตรวจจับภาษาจาก Browser แค่ในหน้าแรก
+      redirectOn: 'root',
     }
   },
-});
+})
