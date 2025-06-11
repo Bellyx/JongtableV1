@@ -178,10 +178,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'; 
-import { useState, useFetch, navigateTo, useHead } from '#imports';
-
+import { useFetch, navigateTo, useHead, useToast, useAuth } from '#imports';
+import type { LoginApiResponse } from '~/types'; // 1. นำเข้า Interface ใหม่
 // Global state สำหรับเก็บข้อมูลผู้ใช้หลัง login
-const user = useState('user', () => null);
+const { login } = useAuth();
 const toast = useToast();
 
 const form = ref({
@@ -252,21 +252,33 @@ const handleLogin = async () => {
   isLoading.value = true;
   try {
     // เรียกใช้ API /api/auth/login ด้วย useFetch
-    const { data, error } = await useFetch('/api/auth/login', {
+   const { data, error } = await useFetch<LoginApiResponse>('/api/auth/login', {
       method: 'POST',
-      body: form.value,
+      body: {
+        email: form.value.email,
+        password: form.value.password
+      },
     });
 
-    // ตรวจสอบว่ามี error จากการ fetch หรือ API ส่งค่า success: false กลับมา
-    if (error.value || !data.value?.success) {
-      const errorMessage = data.value?.message || 'เข้าสู่ระบบไม่สำเร็จ กรุณาตรวจสอบอีเมลและรหัสผ่าน';
+    if (error.value) {
+      // ถ้ามี error จาก useFetch ให้ใช้ข้อความจาก error.value
+      // ซึ่งมาจาก statusMessage ที่เรา throw ไว้ใน API
+      const errorMessage = error.value.data?.message || error.value.data?.statusMessage || 'อีเมลหรือรหัสผ่านไม่ถูกต้อง';
       showAlert(errorMessage);
-      toast.add({ title: 'Error', description: errorMessage, color: 'red', icon: 'i-heroicons-x-circle' });
+      // toast.add({ title: 'Error', description: errorMessage, color: 'red', icon: 'i-heroicons-x-circle' });
+      return;
+    }
+
+    if (!data.value?.success) {
+      // กรณีที่ request สำเร็จแต่ server ตอบว่า success: false (กรณีเผื่อไว้)
+      const errorMessage = 'เข้าสู่ระบบไม่สำเร็จ กรุณาลองใหม่อีกครั้ง';
+      showAlert(errorMessage);
+      // toast.add({ title: 'Error', description: errorMessage, color: 'red', icon: 'i-heroicons-x-circle' });
       return;
     }
 
      // ถ้า Login สำเร็จ, เก็บข้อมูล user ไว้ใน state
-      user.value = data.value.user;
+      login(data.value.user);
 
       showAlert(`ยินดีต้อนรับคุณ, ${data.value.user.name}!`, 'success');
 

@@ -1,24 +1,43 @@
-import  pool  from '../../utils/db'
+// server/api/auth/me.get.ts (เวอร์ชันตรวจสอบ)
+import pool from '../../utils/db';
+import { defineEventHandler, useSession } from 'h3';
+import type { RowDataPacket } from 'mysql2';
+import type { SessionData, User } from '~/types';
+
 export default defineEventHandler(async (event) => {
-  // อ่านข้อมูลจาก Session
-  const session = await useSession(event, {
-    password: process.env.API_SECRET || 'your-super-secret-key-32-chars-long'
-  })
+  console.log('--- [/api/auth/me] เริ่มทำงาน ---');
 
-  // ถ้าไม่มี session หรือไม่มีข้อมูล user ใน session ให้ส่งค่าว่างกลับไป
+  const session = await useSession<SessionData>(event, {
+    password: "b9203d36e81c0074043393910ede8456d2ca9f57787b191aaf9282210c471d91d0a8cf9d84e9615a285f4917c4afce4e",
+  });
+
+  // --- เพิ่ม Log เพื่อดูข้อมูลดิบใน Session ---
+  console.log('--- [/api/auth/me] ข้อมูลดิบใน Session ที่อ่านได้:', JSON.stringify(session.data, null, 2));
+
   if (!session.data?.user?.id) {
-    return { user: null }
+    console.log('--- [/api/auth/me] ตรวจสอบไม่ผ่าน: ไม่พบ user.id ใน session.data');
+    return { user: null };
   }
 
-  // ดึงข้อมูล user ทั้งหมดจากฐานข้อมูลโดยใช้ id จาก session
-  const [rows]: any = await pool.query('SELECT id, name, email, phone, role FROM users WHERE id = ?', [session.data.user.id])
-  const user = rows[0]
+  console.log(`--- [/api/auth/me] ตรวจสอบผ่าน: พบ user.id: ${session.data.user.id}`);
+  const db = await pool.getConnection();
+  try {
+    const [rows] = await db.execute<RowDataPacket[]>(
+      'SELECT id, name, email, phone, role FROM users WHERE id = ?',
+      [session.data.user.id]
+    );
+    const user = rows[0] as User | undefined;
 
-  if (!user) {
-    // ถ้าไม่เจอ user ใน DB (อาจถูกลบไปแล้ว) ให้เคลียร์ session ทิ้ง
-    await session.clear()
-    return { user: null }
+    if (!user) {
+      await session.clear();
+      return { user: null };
+    }
+    return { user };
+  } catch (error) {
+    console.error("Me API Error:", error);
+    await session.clear();
+    return { user: null };
+  } finally {
+    db.release();
   }
-
-  return { user }
-})
+});
