@@ -13,6 +13,10 @@ export default defineNuxtConfig({
     public: {
       apiBase: '/api',
       baseUrl: process.env.NUXT_PUBLIC_BASE_URL || 'http://localhost:3000',
+    },
+   session: {
+      name: 'nuxt-session',
+      password: process.env.NUXT_SESSION_PASSWORD || 'fallback-super-secret-password-32-chars'
     }
   },
   modules: [

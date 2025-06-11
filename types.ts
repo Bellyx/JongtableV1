@@ -8,6 +8,7 @@ export interface User {
 export interface SessionData {
   user?: {
     id: number;
+    email: string;
     role: 'user' | 'admin';
   }
 }

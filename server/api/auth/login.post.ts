@@ -27,15 +27,16 @@ export default defineEventHandler(async (event) => {
     if (!isPasswordMatch) {
       throw createError({ statusCode: 401, statusMessage: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' });
     }
-
+    const config = useRuntimeConfig();
     const session = await useSession<SessionData>(event, {
       password: "b9203d36e81c0074043393910ede8456d2ca9f57787b191aaf9282210c471d91d0a8cf9d84e9615a285f4917c4afce4e",
       maxAge: 60 * 60 * 24 * 7 // 7 วัน
     });
-
+ 
     await session.update({
       user: {
         id: user.id,
+        email: user.email, // <-- เพิ่มบรรทัดนี้
         role: user.role,
       }
     });
