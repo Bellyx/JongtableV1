@@ -23,6 +23,10 @@
   },
   "stats": {
     "totalBookings": "การจองทั้งหมด",
-    "ticketsPurchased": "ตั๋วที่ซื้อแล้ว"
+    "ticketsPurchased": "ตั๋วที่ซื้อแล้ว",
+    "confirmed": "ยืนยันแล้ว",
+    "pending": "รอดำเนินการ",
+    "cancelled": "ยกเลิกแล้ว",
+    "unknown": "ไม่ทราบสถานะ"
   }
 }

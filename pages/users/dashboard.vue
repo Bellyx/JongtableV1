@@ -147,41 +147,40 @@ function logout() {
           
           <UCard class="bg-gradient-to-br from-white to-green-50 dark:from-gray-800 dark:to-gray-700 shadow-xl shadow-green-100/50 dark:shadow-slate-900/50 border border-white/20 dark:border-gray-700/50 backdrop-blur-sm" 
                  :ui="{ ring: 'dark:ring-slate-700', divide: 'dark:divide-slate-700' }">
-            <div class="flex items-center gap-2 mb-6">
-              <UIcon name="i-heroicons-calendar-days" class="h-5 w-5 text-green-500" />
-              <h3 class="font-bold text-lg text-gray-800 dark:text-white">{{ t('upcoming_reservations') }}</h3>
+            <div class="flex items-center gap-2 mb-4">
+              <UIcon name="i-heroicons-calendar-days" class="h-4 w-4 text-green-500" />
+              <h3 class="font-semibold text-base text-gray-800 dark:text-white">{{ t('upcoming_reservations') }}</h3>
             </div>
             
-            <div v-if="upcomingReservations.length > 0" class="space-y-4">
+            <div v-if="upcomingReservations.length > 0" class="space-y-2">
               <div v-for="res in upcomingReservations" :key="res.id" 
-                   class="group flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl border border-green-100 dark:border-green-800/50 hover:shadow-lg hover:scale-[1.02] transition-all duration-300">
+                   class="group flex items-center justify-between p-3 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg border border-green-100 dark:border-green-800/50 hover:shadow-md hover:scale-[1.01] transition-all duration-200">
                 <div class="flex items-center gap-3">
-                  <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl flex items-center justify-center text-white font-bold shadow-lg">
+                  <div class="w-8 h-8 bg-gradient-to-br from-green-400 to-emerald-500 rounded-lg flex items-center justify-center text-white font-bold text-xs shadow-sm">
                     {{ res.table }}
                   </div>
-                  <div>
-                    <p class="font-bold text-gray-800 dark:text-white flex items-center gap-1">
-                      <UIcon name="i-heroicons-users" class="h-4 w-4 text-green-600" />
-                      {{ res.guests }} guests
-                    </p>
-                    <p class="text-sm text-gray-600 dark:text-gray-300 flex items-center gap-1">
-                      <UIcon name="i-heroicons-clock" class="h-3 w-3" />
-                      {{ new Date(res.date).toLocaleDateString(locale, { weekday: 'long', month: 'short', day: 'numeric' }) }} at {{ res.time }}
-                    </p>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 text-sm">
+                      <UIcon name="i-heroicons-users" class="h-3 w-3 text-green-600 flex-shrink-0" />
+                      <span class="font-medium text-gray-800 dark:text-white">{{ res.guests }}</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-300 mt-0.5">
+                      <UIcon name="i-heroicons-clock" class="h-3 w-3 flex-shrink-0" />
+                      <span class="truncate">{{ new Date(res.date).toLocaleDateString(locale, { month: 'short', day: 'numeric' }) }}, {{ res.time }}</span>
+                    </div>
                   </div>
                 </div>
-                <UButton :label="t('details')" 
-                         variant="link" 
-                         size="sm" 
-                         :padded="false" 
-                         class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-green-600 hover:text-green-700" />
+                <UButton variant="ghost" 
+                         size="xs" 
+                         icon="i-heroicons-ellipsis-horizontal"
+                         class="opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-green-600 hover:text-green-700 hover:bg-green-100 dark:hover:bg-green-900/30" />
               </div>
             </div>
             
-            <div v-else class="text-center py-8">
-              <UIcon name="i-heroicons-calendar-x-mark" class="h-12 w-12 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
-              <p class="text-gray-500 dark:text-gray-400">{{ t('no_reservations') }}</p>
-              <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">{{ t('no_reservations_desc') }}</p>
+            <div v-else class="text-center py-6">
+              <UIcon name="i-heroicons-calendar-x-mark" class="h-8 w-8 text-gray-300 dark:text-gray-600 mx-auto mb-2" />
+              <p class="text-sm text-gray-500 dark:text-gray-400">{{ t('no_reservations') }}</p>
+              <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">{{ t('no_reservations_desc') }}</p>
             </div>
           </UCard>
 

@@ -1,8 +1,7 @@
 // server/api/auth/login.post.ts
-// import pool from '~/server/utils/db';
-import pool from '../../utils/db';
+import pool from '../../utils/db'; // แก้ไข path ตามโครงสร้าง
 import bcrypt from 'bcrypt';
-import { defineEventHandler, readBody, createError } from 'h3';
+import { defineEventHandler, readBody, createError, useSession } from 'h3';
 import type { RowDataPacket } from 'mysql2';
 
 export default defineEventHandler(async (event) => {
@@ -25,38 +24,43 @@ export default defineEventHandler(async (event) => {
 
     const user = rows[0];
 
-    // --- DEBUGGING START ---
     console.log('--- Login Attempt ---');
     console.log('Email:', email);
-    console.log('User found in DB:', user); // แสดงข้อมูล user ทั้งหมดที่เจอ
-    // --- DEBUGGING END ---
+    console.log('User found in DB:', user);
 
     if (!user) {
       console.log('Result: User not found.');
-      return { success: false, message: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' };
+      // ใช้ createError เพื่อให้ฝั่ง client จัดการ error ได้ง่าย
+      throw createError({ statusCode: 401, statusMessage: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' });
     }
     
-    // --- MORE DEBUGGING ---
-    // ตรวจสอบข้อมูล hashedPassword ที่ได้จาก DB
     console.log('Hashed password from DB:', user.hashedPassword);
-    console.log('Type of hashed password:', typeof user.hashedPassword);
-    // --- DEBUGGING END ---
-
-    // ตรวจสอบให้แน่ใจว่า hashedPassword เป็น string ก่อนเปรียบเทียบ
+    
     if (typeof user.hashedPassword !== 'string') {
-        console.error('Error: Hashed password is not a string! It might be a Buffer.');
-        throw new Error('Database configuration or driver issue.');
+        console.error('Error: Hashed password is not a string!');
+        throw new Error('Database configuration issue.');
     }
 
     const isPasswordMatch = await bcrypt.compare(plainTextPassword, user.hashedPassword);
 
-    // --- FINAL DEBUGGING ---
-    console.log('Result of bcrypt.compare:', isPasswordMatch); // ผลลัพธ์ควรเป็น true ถ้าถูกต้อง
-    // --- DEBUGGING END ---
+    console.log('Result of bcrypt.compare:', isPasswordMatch);
 
     if (!isPasswordMatch) {
-      return { success: false, message: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' };
+      throw createError({ statusCode: 401, statusMessage: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' });
     }
+
+    // --- ส่วนที่เพิ่มเข้ามาสำหรับการสร้าง Session ---
+    const session = await useSession(event, {
+      password: process.env.API_SECRET || 'your-super-secret-key-32-chars-long',
+      maxAge: 60 * 60 * 24 * 7 // 7 วัน
+    });
+    await session.update({
+      user: {
+        id: user.id,
+        role: user.role,
+      }
+    });
+    // --- สิ้นสุดส่วนที่เพิ่มเข้ามา ---
 
     const userProfile = {
       id: user.id,
@@ -64,12 +68,15 @@ export default defineEventHandler(async (event) => {
       email: user.email,
       role: user.role,
     };
-
+    
+    // ส่งข้อมูลผู้ใช้กลับไปให้ client หลัง login สำเร็จ
     return { success: true, user: userProfile };
 
-  } catch (error) {
-    if (typeof error === 'object' && error !== null && 'statusCode' in error){
-        console.error('Login API Error:', error);
+  } catch (error: any) {
+    console.error('Login API Error:', error.message || error);
+    // ส่งต่อ error ที่สร้างจาก createError หรือสร้าง error ใหม่
+    if (error.statusCode) {
+      throw error;
     }
     throw createError({
       statusCode: 500,
