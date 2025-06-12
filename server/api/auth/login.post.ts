@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
   if (!email || !plainTextPassword) {
     throw createError({ statusCode: 400, statusMessage: 'กรุณากรอกอีเมลและรหัสผ่าน' });
   }
-
+  
   const db = await pool.getConnection();
   try {
     const [rows] = await db.execute<RowDataPacket[]>('SELECT id, name, email, role, password AS hashedPassword FROM users WHERE email = ?', [email]);
@@ -27,16 +27,19 @@ export default defineEventHandler(async (event) => {
     if (!isPasswordMatch) {
       throw createError({ statusCode: 401, statusMessage: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' });
     }
+    
+    // ดึงค่า config และกำหนด maxAge
     const config = useRuntimeConfig();
-    const session = await useSession<SessionData>(event, {
-      password: "b9203d36e81c0074043393910ede8456d2ca9f57787b191aaf9282210c471d91d0a8cf9d84e9615a285f4917c4afce4e",
+    const sessionConfig = {
+      ...config.session, // ใช้ name และ password จาก nuxt.config.ts
       maxAge: 60 * 60 * 24 * 7 // 7 วัน
-    });
+    };
+    const session = await useSession<SessionData>(event, sessionConfig);
  
     await session.update({
       user: {
         id: user.id,
-        email: user.email, // <-- เพิ่มบรรทัดนี้
+        email: user.email,
         role: user.role,
       }
     });

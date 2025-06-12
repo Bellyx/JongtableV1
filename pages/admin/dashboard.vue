@@ -2,14 +2,20 @@
 import { computed, ref } from 'vue';
 import { useAuth } from '~/composables/useAuth';
 import { useFetch, navigateTo, definePageMeta, useI18n } from '#imports';
+// กำหนด middleware
+definePageMeta({
+  layout: 'admin',
+  middleware: ['auth-admin']
+});
+
+useHead({
+  title: 'แผงควบคุมผู้ดูแลระบบ' // ไม่ต้องใส่ "| Jongtable" ซ้ำ
+})
 
 const { t } = useI18n();
 const { user, logout: authLogout } = useAuth(); // เปลี่ยนชื่อ logout เพื่อไม่ให้ซ้ำ
 
-// กำหนด middleware
-definePageMeta({
-  middleware: ['auth-admin']
-});
+
 
 // --- ส่วนดึงข้อมูล (เหมือนเดิม) ---
 const { data, pending, error } = await useFetch('/api/bookings/recent');
@@ -52,7 +58,7 @@ const logout = async () => {
             </div>
             <div>
               <h1 class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-purple-400 dark:to-indigo-400 bg-clip-text text-transparent">
-              แผงควบคุมผู้ดูแลระบบ
+                แผงควบคุมผู้ดูแลระบบ
               </h1>
               <p v-if="user" class="text-gray-600 dark:text-gray-300 flex items-center gap-2 mt-1">
                 <UIcon name="i-heroicons-user-circle" class="h-4 w-4" />
@@ -169,13 +175,17 @@ const logout = async () => {
         </UCard>
       </div>
 
-      <UCard class="bg-gradient-to-br from-white to-slate-50 dark:from-gray-800 dark:to-gray-700 shadow-2xl shadow-slate-200/50 dark:shadow-slate-900/50 border border-white/20 dark:border-gray-700/50 backdrop-blur-sm overflow-hidden">
-        <template #header>
-          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-2">
-            <div class="flex items-center gap-3">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <UCard class="lg:col-span-2 bg-gradient-to-br from-white to-slate-50 dark:from-gray-800 dark:to-gray-700 shadow-2xl shadow-slate-200/50 dark:shadow-slate-900/50 border border-white/20 dark:border-gray-700/50 backdrop-blur-sm overflow-hidden">
+    
+          <template #header>
+     
+            <div class="flex items-center gap-3 p-2">
               <div class="p-3 bg-gradient-to-br from-purple-100 to-indigo-200 dark:from-purple-900/50 dark:to-indigo-800/50 rounded-xl shadow-lg">
                 <UIcon name="i-heroicons-bookmark" class="h-6 w-6 text-purple-600 dark:text-purple-400" />
               </div>
+  
               <div>
                 <h3 class="text-xl font-bold text-gray-800 dark:text-white">
                   รายการจองล่าสุด
@@ -183,65 +193,71 @@ const logout = async () => {
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                   ติดตามการจองที่เข้ามาล่าสุด
                 </p>
+                  <UButton 
+                  label="ดูการจองทั้งหมด" 
+                  variant="outline" 
+                  to="/admin/bookings" 
+                  icon="i-heroicons-arrow-right"
+                  trailing
+                  size="md"
+                  class="shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 w-full"
+                    />
               </div>
             </div>
-            <UButton 
-              label="ดูการจองทั้งหมด" 
-              variant="outline" 
-              to="/admin/bookings" 
-              icon="i-heroicons-arrow-right"
-              trailing
-              class="shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105"
-            />
-          </div>
-        </template>
-        
-        <div v-if="pending" class="flex items-center justify-center py-12">
-          <div class="flex flex-col items-center gap-4">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-            <p class="text-gray-600 dark:text-gray-300 font-medium">กำลังโหลดข้อมูล...</p>
-          </div>
-        </div>
-        
-        <div v-else-if="error" class="text-center py-12">
-          <div class="flex flex-col items-center gap-4">
-            <UIcon name="i-heroicons-exclamation-triangle" class="h-16 w-16 text-red-500" />
-            <div>
-              <p class="text-red-600 dark:text-red-400 font-semibold mb-2">ไม่สามารถโหลดข้อมูลการจองได้</p>
-              <p class="text-gray-500 dark:text-gray-400 text-sm">กรุณาลองใหม่อีกครั้งในภายหลัง</p>
+          </template>
+
+          <div v-if="pending" class="flex items-center justify-center py-12">
+            <div class="flex flex-col items-center gap-4">
+              <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+              <p class="text-gray-600 dark:text-gray-300 font-medium">กำลังโหลดข้อมูล...</p>
             </div>
           </div>
-        </div>
+          
+          <div v-else-if="error" class="text-center py-12">
+            <div class="flex flex-col items-center gap-4">
+              <UIcon name="i-heroicons-exclamation-triangle" class="h-16 w-16 text-red-500" />
+              <div>
+                <p class="text-red-600 dark:text-red-400 font-semibold mb-2">ไม่สามารถโหลดข้อมูลการจองได้</p>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">กรุณาลองใหม่อีกครั้งในภายหลัง</p>
+              </div>
+            </div>
+          </div>
+          
+          <div v-else class="overflow-x-auto">
+            <UTable 
+              :rows="formattedBookings" 
+              :columns="columns"
+              class="w-full"
+              :ui="{
+                wrapper: 'relative overflow-x-auto',
+                base: 'min-w-full table-auto',
+                divide: 'divide-y divide-gray-200 dark:divide-gray-700',
+                thead: 'bg-gradient-to-r from-gray-50 to-slate-100 dark:from-gray-700 dark:to-gray-600',
+                tbody: 'bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700',
+                tr: { base: 'hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200' },
+                th: { base: 'text-left rtl:text-right px-6 py-4 text-sm font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wider' },
+                td: { base: 'whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-gray-100' }
+              }"
+            >
+              <template #status-data="{ row }">
+                <UBadge
+                  :color="row.status === 'confirmed' ? 'green' : row.status === 'pending' ? 'yellow' : 'red'"
+                  variant="subtle"
+                  size="md"
+                  class="font-semibold shadow-sm"
+                >
+                  {{ row.status }}
+                </UBadge>
+              </template>
+            </UTable>
+          </div>
+        </UCard>
         
-        <div v-else class="overflow-x-auto">
-          <UTable 
-            :rows="formattedBookings" 
-            :columns="columns"
-            class="w-full"
-            :ui="{
-              wrapper: 'relative overflow-x-auto',
-              base: 'min-w-full table-auto',
-              divide: 'divide-y divide-gray-200 dark:divide-gray-700',
-              thead: 'bg-gradient-to-r from-gray-50 to-slate-100 dark:from-gray-700 dark:to-gray-600',
-              tbody: 'bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700',
-              tr: { base: 'hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-200' },
-              th: { base: 'text-left rtl:text-right px-6 py-4 text-sm font-bold text-gray-700 dark:text-gray-200 uppercase tracking-wider' },
-              td: { base: 'whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-gray-100' }
-            }"
-          >
-            <template #status-data="{ row }">
-              <UBadge
-                :color="row.status === 'confirmed' ? 'green' : row.status === 'pending' ? 'yellow' : 'red'"
-                variant="subtle"
-                size="md"
-                class="font-semibold shadow-sm"
-              >
-                {{ row.status }}
-              </UBadge>
-            </template>
-          </UTable>
-        </div>
-      </UCard>
-    </UContainer>
+        <UCard class="bg-gradient-to-br from-white to-slate-50 dark:from-gray-800 dark:to-gray-700 shadow-2xl shadow-slate-200/50 dark:shadow-slate-900/50 border border-white/20 dark:border-gray-700/50 backdrop-blur-sm flex items-start">
+       
+        </UCard>
+
+      </div>
+      </UContainer>
   </div>
 </template>

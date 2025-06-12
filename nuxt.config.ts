@@ -36,6 +36,8 @@ export default defineNuxtConfig({
   app: {
     pageTransition: { name: "page", mode: "out-in" },
     head: {
+      titleTemplate: '%s | Jongtable',
+      title: 'Jongtable',       // Title เริ่มต้นสำหรับหน้าแรก หรือหน้าที่ไม่ได้กำหนด title
       htmlAttrs: {
         lang: "en",
         class: "h-full",

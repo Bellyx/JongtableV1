@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 import QrcodeVue from 'qrcode.vue';
-
+useHead({
+  title: 'จัดการข้อความ' // ไม่ต้องใส่ "| Jongtable" ซ้ำ
+})
 // State และตัวแปรอื่นๆ เหมือนเดิม
 const caption = ref('');
 const fileInput = ref<HTMLInputElement | null>(null);
@@ -83,6 +85,7 @@ onUnmounted(() => {
 });
 
 definePageMeta({
+  layout: 'admin',
   middleware: ['auth-admin']
 });
 </script>
