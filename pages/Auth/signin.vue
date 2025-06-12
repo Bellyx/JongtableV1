@@ -288,7 +288,7 @@ const handleLogin = async () => {
         icon: 'i-heroicons-check-circle'
       });
 
-      // รอ 1 วินาทีก่อนเข้าสู่ระบบ
+      // รอ 0.5 วินาทีก่อนเข้าสู่ระบบ
       await new Promise(resolve => setTimeout(resolve, 500));
 
       // นำทางไปยังหน้า Dashboard ตาม role ของ user
