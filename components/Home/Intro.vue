@@ -59,55 +59,53 @@
     </div>
 
     <!-- 🎫 ส่วนหัวข้อ Tickets -->
-    <div class="pt-10 border-t border-gray-200 dark:border-gray-700">
-      <div class="flex items-center justify-between mb-4 px-2 sm:px-0">
-        <div class="flex items-center space-x-2">
-          <span class="text-2xl">🎫</span>
-          <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100">
-            กิจกรรมที่กำลังมาถึง
-          </h2>
-        </div>
-        <NuxtLink to="/Tickets/ticketlist" class="text-sm text-blue-600 hover:underline">
-          ดูทั้งหมด →
-        </NuxtLink>
-      </div>
+ <div v-if="pending" class="pt-10 text-center">
+    กำลังโหลดกิจกรรม...
+  </div>
 
-      <!-- 🃏 การ์ดกิจกรรม Slide -->
+  <div v-else-if="publicEvents && publicEvents.length > 0" class="pt-10 border-t border-gray-200 dark:border-gray-700">
+    <div class="flex items-center justify-between mb-4 px-2 sm:px-0">
+      <div class="flex items-center space-x-2">
+        <span class="text-2xl">🎫</span>
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100">
+          กิจกรรมที่กำลังมาถึง
+        </h2>
+      </div>
+      <NuxtLink to="/events" class="text-sm text-blue-600 hover:underline">
+        ดูทั้งหมด →
+      </NuxtLink>
+    </div>
+
+    <div class="flex space-x-4 overflow-x-auto px-2 pb-4 scroll-smooth scrollbar-hide">
       <div
-        class="flex space-x-4 overflow-x-auto px-2 pb-4 scroll-smooth scrollbar-hide"
-        ref="scrollContainer"
+        v-for="event in publicEvents"
+        :key="event.id"
+        class="flex-none w-64 bg-gradient-to-br from-indigo-500 to-indigo-700 text-white rounded-xl shadow-lg p-4"
       >
-        <div
-          v-for="event in events.slice(0, 2)"
-          :key="event.id"
-          class="flex-none w-64 bg-gradient-to-br from-indigo-500 to-indigo-700 text-white rounded-xl shadow-lg p-4"
-        >
-          <img
-            :src="event.image"
-            alt=""
-            class="rounded-md mb-3 w-full h-36 object-cover shadow-md border border-white/20"
-          />
-          <h3 class="font-semibold text-lg mb-1">
-            {{ event.title }}
-          </h3>
-          <p class="text-sm opacity-90 mb-3">
-            📅 {{ event.date }}
-          </p>
-          <NuxtLink
-            :to="event.link"
-            class="inline-block px-3 py-1 bg-white text-indigo-700 font-medium rounded hover:bg-gray-100 transition text-sm"
-          >
-            ซื้อตั๋ว
-          </NuxtLink>
-        </div>
+        <img
+          :src="event.cover_image_url || 'https://placehold.co/600x400/EEE/31343C?text=Event'"
+          alt="Event Cover Image"
+          class="rounded-md mb-3 w-full h-36 object-cover shadow-md border border-white/20"
+        />
+        <h3 class="font-semibold text-lg mb-1 truncate">
+          {{ event.name }}
+        </h3>
+        <p class="text-sm opacity-90 mb-3">
+          📅 {{ new Date(event.event_date).toLocaleDateString('th-TH') }}
+        </p>
+        <span class="px-2 py-0.5 text-xs rounded-full" 
+              :class="{'bg-green-400 text-green-900': event.calculatedStatus === 'กิจกรรมกำลังเริ่ม', 'bg-blue-300 text-blue-900': event.calculatedStatus === 'เร็วๆ นี้'}">
+          {{ event.calculatedStatus }}
+        </span>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-
+const { data: publicEvents, pending } = await useFetch('/api/events?scope=public')
 const announcement = ref("โปรโมชั่นพิเศษ! จองโต๊ะวันนี้ รับฟรีเครื่องดื่ม 1 แก้ว 🍹");
 
 const events = ref([

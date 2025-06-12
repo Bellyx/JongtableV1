@@ -20,7 +20,9 @@ function toggleLocale() {
 </script>
 
 <template>
-  <UTooltip :text="`Switch to ${nextLocaleName}`" :popper="{ placement: 'bottom' }">
+  <!-- <UTooltip  text="Toggle theme" :ui="{ popper: { strategy: 'absolute' } }"></UTooltip> -->
+       <UTooltip :text="`Switch to ${nextLocaleName}`" :ui="{ popper: { strategy: 'absolute' ,placement: 'bottom'} }">
+  <!-- <UTooltip :text="`Switch to ${nextLocaleName}`" :popper="{ placement: 'bottom' }"> -->
     <UButton
       color="gray"
       variant="ghost"
