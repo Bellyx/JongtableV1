@@ -3,7 +3,9 @@ definePageMeta({
   layout: 'admin',
   middleware: ['auth-admin']
 })
-
+useHead({
+  title: 'จัดการกิจกรรม' // ไม่ต้องใส่ "| Jongtable" ซ้ำ
+})
 const toast = useToast()
 
 // --- State for Form ---
