@@ -2,7 +2,6 @@
 import { NuxtLink } from '#components';
 // --- [แก้ไข] เพิ่ม ref เข้ามาใน import ---
 import { computed, ref } from 'vue';
-import { useAuth } from '../../composables/useAuth'
 import { 
   LayoutDashboard, 
   MessagesSquare, 
@@ -177,8 +176,8 @@ const sidebarClasses = computed(() => [
               <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border border-gray-900 animate-pulse"></div>
             </div>
             <div class="flex-1 min-w-0">
-              <p class="text-sm font-medium text-white truncate">{{ user?.role }}</p>
-              <p class="text-xs text-gray-400 truncate">{{ user?.name }}</p>
+              <p class="text-sm font-medium text-white truncate">Admin User</p>
+              <p class="text-xs text-gray-400 truncate">admin@jongtable.com</p>
             </div>
           </div>
         </div>
