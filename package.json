@@ -24,7 +24,7 @@
     "nuxt-icon": "0.6.7",
     "prettier": "3.1.1",
     "prettier-plugin-tailwindcss": "0.5.9",
-    "yarn-upgrade-all": "^0.7.2"
+    "yarn-upgrade-all": "^0.7.5"
   },
   "dependencies": {
     "@iconify-json/lucide": "1.1.145",

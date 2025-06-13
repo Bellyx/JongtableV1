@@ -1,19 +1,24 @@
-// server/api/events/index.get.ts
+// server/api/events/index.get.ts (เวอร์ชันแก้ไข)
 
 import { eventHandler, getQuery } from 'h3'
-import pool from '../../utils/db';
+import pool from '../../utils/db'
+import type { PoolConnection } from 'mysql2/promise' // Import Type เพื่อความถูกต้อง
 
 export default eventHandler(async (event) => {
+  // 1. ประกาศตัวแปร connection ไว้นอก try
+  let db: PoolConnection | undefined; 
+  
   try {
-    const db = await pool.getConnection();
+    // 2. ยืม connection มาใช้เหมือนเดิม
+    db = await pool.getConnection();
+    
     const query = getQuery(event)
-    const scope = query.scope || 'admin' // ค่า default คือ 'admin'
+    const scope = query.scope || 'admin'
 
     let sql = 'SELECT *, NOW() as currentTime FROM events'
     const params: any[] = []
 
     if (scope === 'public') {
-      // สำหรับผู้ใช้ทั่วไป: ดึงเฉพาะกิจกรรมที่อยู่ในช่วงเวลาแสดงผล
       sql += ' WHERE status != "ENDED" AND NOW() BETWEEN display_start_time AND display_end_time'
     }
     
@@ -21,7 +26,6 @@ export default eventHandler(async (event) => {
 
     const [rows] = await db.query(sql, params)
 
-    // เพิ่ม "Calculated Status" เพื่อให้ frontend ใช้งานง่าย
     const events = (rows as any[]).map(ev => {
         const now = new Date(ev.currentTime);
         const eventDate = new Date(ev.event_date);
@@ -41,10 +45,17 @@ export default eventHandler(async (event) => {
         }
     });
 
-
     return events
+
   } catch (error: any) {
     console.error('Error fetching events:', error)
     throw createError({ statusCode: 500, statusMessage: 'Internal Server Error' })
+  } finally {
+    // 3. ส่วนที่สำคัญที่สุด: คืน connection กลับสู่ pool
+    // บล็อก finally จะทำงานเสมอ ไม่ว่าจะสำเร็จหรือเกิด error
+    if (db) {
+      db.release();
+      console.log("Database connection released."); // เพิ่ม log เพื่อให้เห็นว่าคืนแล้ว
+    }
   }
 })
