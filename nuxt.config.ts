@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     dbUser: process.env.DB_USER,
     dbPassword: process.env.DB_PASSWORD,
     dbDatabase: process.env.DB_DATABASE,
-
+    ocrSpaceApiKey: process.env.OCR_SPACE_API_KEY,
     // Keys ที่ส่งไปให้ฝั่ง Client (หน้าเว็บ) ใช้งานได้ด้วย
     public: {
       apiBase: '/api',

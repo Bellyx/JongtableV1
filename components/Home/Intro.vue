@@ -38,7 +38,7 @@
     <!-- 🧩 ปุ่มต่าง ๆ แบบ Card Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <!-- ปุ่มต่าง ๆ เหมือนเดิม ... -->
-      <NuxtLink to="/Booking/bookinglist" class="block p-4 rounded-lg shadow bg-blue-600 text-white hover:bg-blue-700 transition">
+      <NuxtLink to="/Booking/" class="block p-4 rounded-lg shadow bg-blue-600 text-white hover:bg-blue-700 transition">
         <span class="text-lg">🪑</span> จองโต๊ะ
       </NuxtLink>
       <NuxtLink to="/Menu/menulist" class="block p-4 rounded-lg shadow bg-green-600 text-white hover:bg-green-700 transition">
