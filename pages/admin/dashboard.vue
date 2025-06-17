@@ -193,15 +193,15 @@ const logout = async () => {
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                   ติดตามการจองที่เข้ามาล่าสุด
                 </p>
-                  <UButton 
-                  label="ดูการจองทั้งหมด" 
-                  variant="outline" 
-                  to="/admin/bookings" 
-                  icon="i-heroicons-arrow-right"
-                  trailing
-                  size="md"
-                  class="shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 w-full"
-                    />
+                <UButton 
+                    label="ดูการจองทั้งหมด" 
+                    variant="outline" 
+                    to="/admin/bookings" 
+                    icon="i-heroicons-arrow-right"
+                    trailing
+                    size="md"
+                    class="shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 w-full"
+                />
               </div>
             </div>
           </template>

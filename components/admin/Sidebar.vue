@@ -12,7 +12,8 @@ import {
   X,
   Sparkles,
   LogOut,
-  Power
+  Power,
+  BookMarked
 } from 'lucide-vue-next';
 
 interface Props {
@@ -59,6 +60,12 @@ const menuItems = [
     label: 'จัดการกิจกรรม', 
     icon: CalendarDays,
     gradient: 'from-orange-500 to-red-600'
+  },
+  { 
+    to: '/admin/bookings', 
+    label: 'จัดการการจอง', 
+    icon: BookMarked, // ใช้ icon ที่เหมาะสม
+    gradient: 'from-pink-500 to-rose-600'
   },
   { 
     to: '/admin/reviews', 
@@ -169,15 +176,23 @@ const sidebarClasses = computed(() => [
       <div class="mt-4 space-y-3">
         <div class="p-3 bg-gray-800/30 rounded-xl border border-gray-700/30 hover:bg-gray-800/40 transition-all duration-200">
           <div class="flex items-center gap-3">
-            <div class="relative">
-              <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                <span class="text-sm font-bold text-white">A</span>
-              </div>
-              <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border border-gray-900 animate-pulse"></div>
+          <div class="relative group">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300
+              {{ user?.role === 'admin' 
+                ? 'bg-gradient-to-br from-red-500 via-pink-500 to-yellow-500 shadow-md' 
+                : 'bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-600 shadow-md' }}">
+              <span class="text-xs font-semibold text-white drop-shadow-sm">
+                {{ user?.role === 'admin' ? 'A' : 'U' }}
+              </span>
             </div>
+            <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border border-gray-900 animate-pulse"></div>
+            <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap">
+              {{ user?.role }}
+            </div>
+          </div>
             <div class="flex-1 min-w-0">
-              <p class="text-sm font-medium text-white truncate">Admin User</p>
-              <p class="text-xs text-gray-400 truncate">admin@jongtable.com</p>
+              <p class="text-sm font-medium text-white truncate">{{ user?.name }}</p>
+              <p class="text-xs text-gray-400 truncate">{{ user?.email }}</p>
             </div>
           </div>
         </div>
