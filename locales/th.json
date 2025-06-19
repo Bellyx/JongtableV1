@@ -28,5 +28,12 @@
     "pending": "รอดำเนินการ",
     "cancelled": "ยกเลิกแล้ว",
     "unknown": "ไม่ทราบสถานะ"
-  }
+  },
+
+    "guests": "จำนวนคน",
+    "table": "โต๊ะ",
+    "booking_date": "วันที่จอง",
+    "booking_time": "เวลาที่จอง",
+    "view_details": "ข้อมูลเพิ่มเติม"
+  
 }

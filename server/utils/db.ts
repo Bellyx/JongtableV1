@@ -1,6 +1,7 @@
 // server/utils/db.ts
 import mysql from 'mysql2/promise';
 
+
 // ดึงค่า Config ที่เราตั้งไว้ใน nuxt.config.ts
 const config = useRuntimeConfig();
 

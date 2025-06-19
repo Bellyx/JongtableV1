@@ -1,33 +1,59 @@
-// server/api/bookings/recent.get.ts
-import db from '../../utils/db';
-import { createError, defineEventHandler } from 'h3';
-import type { RowDataPacket } from 'mysql2/promise'; // 1. นำเข้า Type ที่จำเป็น
+// File: server/api/bookings/recent.get.ts
+
+import { defineEventHandler, createError,  useSession } from 'h3';
+import  db  from '~/server/utils/db';
+import type { Booking, SessionData } from '~/types';
 
 export default defineEventHandler(async (event) => {
+  // 1. เรียกใช้ useRuntimeConfig() **โดยไม่ต้องใส่ Argument**
+  const config = useRuntimeConfig();
+
+  // 2. ส่ง config.session เป็น Argument ที่สองให้กับ useSession
+  const session = await useSession<SessionData>(event, config.session);
+
+  // 3. เข้าถึงข้อมูลผู้ใช้ที่อยู่ใน session.data
+  const user = session.data?.user;
+
+  // 4. ตรวจสอบสิทธิ์
+  if (!user || !user.email) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: 'Unauthorized',
+    });
+  }
+
+  // 5. เตรียมคำสั่ง SQL
+  const sql = `
+    SELECT 
+      ID,
+      NAME,
+      email,
+      booking_ref,
+      booking_date,
+      guests,
+      deposit_amount,
+      payment_amount,
+      slip_url,
+      payment_timestamp,
+      created_at,
+      expires_at,
+      status
+    FROM 
+      bookings 
+    WHERE 
+      email = ? 
+    ORDER BY 
+      booking_date DESC
+    LIMIT 2
+  `;
+
   try {
-    // 2. ระบุ Type ของผลลัพธ์ที่เราคาดหวัง (<RowDataPacket[]>)
-    const [rows] = await db.query<RowDataPacket[]>(`
-      SELECT 
-        id, 
-        name, 
-        booking_date, 
-        guests, 
-        status 
-      FROM 
-        bookings 
-      ORDER BY 
-        booking_date DESC 
-      LIMIT 10
-    `);
-
-    // 3. ตรวจสอบเพื่อความปลอดภัยว่าผลลัพธ์เป็น Array จริงๆ
-    // และคืนค่าเป็น Array ว่างหากเกิดกรณีที่ไม่คาดคิด
-    if (!Array.isArray(rows)) {
-        return { bookings: [] };
-    }
-
+    // 6. เรียกใช้ Query
+    const [rows] = await db.query(sql, [user.email]);
+    const bookings = rows as Booking[];
+    
     return {
-      bookings: rows
+      bookings: bookings
     };
     
   } catch (error) {
